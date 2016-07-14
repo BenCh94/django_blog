@@ -49,3 +49,12 @@ def edit_post(request, id):
     else:
         form = BlogPostForm(instance=post)
     return render(request, 'blogpostform.html', {'form': form})
+
+
+def delete_post(request, id):
+    post = get_object_or_404(Post, pk=id)
+    if post.author == request.user:
+        post.delete()
+        return render(request, 'deleted.html')
+    else:
+        return render(request, 'not_deleted.html')
